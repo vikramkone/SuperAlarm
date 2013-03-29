@@ -328,8 +328,7 @@ namespace SuperAlarm
                         {
                             this.weekPanel.Visibility = System.Windows.Visibility.Visible;
                             this.monthPanel.Visibility = System.Windows.Visibility.Collapsed;
-
-
+                            
                             break;
                         }
                     case RecurrenceInterval.Monthly:
