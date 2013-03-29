@@ -1,0 +1,240 @@
+﻿<phone:PhoneApplicationPage x:Class="SuperAlarm.AddNotification"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+                            xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+                            FontFamily="{StaticResource PhoneFontFamilyNormal}"
+                            FontSize="{StaticResource PhoneFontSizeNormal}"
+                            Foreground="{StaticResource PhoneForegroundBrush}"
+                            SupportedOrientations="Portrait"
+                            xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                            Orientation="Portrait"
+                            mc:Ignorable="d"
+                            shell:SystemTray.IsVisible="True">
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot"
+          Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0"
+                    Margin="12,17,0,28">
+            <TextBlock Text="ALARMS"
+                       Style="{StaticResource PhoneTextNormalStyle}" />
+            <TextBlock  Name="page"
+                        Text="new"
+                        Margin="9,-7,0,0"
+                        Style="{StaticResource PhoneTextTitle1Style}" />
+        </StackPanel>
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel"
+              Grid.Row="1"
+              Margin="12,0,12,0">
+            <Grid.Resources>
+                <DataTemplate x:Key="PickerItemTemplate">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </DataTemplate>
+                <DataTemplate x:Name="PickerFullModeItemTemplate">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Name="playBtn"
+                                BorderBrush="Black"
+                                BorderThickness="0"
+                                Tag="{Binding Path}"
+                                Tap="playBtn_Tap">
+                            <Image Source="/Images/play.png" />
+                        </Button>
+                        <!--<MediaElement Name="Audio"
+                                      AutoPlay="False"
+                                      Source="{Binding Path}">
+                        </MediaElement>-->
+                        <TextBlock Text="{Binding Name}"
+                                   Name="audioTextBlk"
+                                   FontSize="36"
+                                   FontWeight="Bold"
+                                   Tap="audioTextBlk_Tap"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </DataTemplate>
+            </Grid.Resources>
+            <ScrollViewer>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Height="30"
+                               HorizontalAlignment="Left"
+                               Name="titleLabel"
+                               Text="Name"
+                               VerticalAlignment="Top" />
+                    <TextBox Height="72"
+                             HorizontalAlignment="Stretch"
+                             Name="titleTextBox"
+                             Text="Alarm"
+                             VerticalAlignment="Top"
+                             Width="460"
+                             MaxLength="30" />
+                    <TextBlock Height="30"
+                               HorizontalAlignment="Left"
+                               Name="DateLabel"
+                               Text="Date"
+                               VerticalAlignment="Top" />
+                    <toolkit:DatePicker x:Name="beginDatePicker"></toolkit:DatePicker>
+                    <TextBlock Height="30"
+                               HorizontalAlignment="Left"
+                               Name="TimeLabel"
+                               Text="Time"
+                               VerticalAlignment="Top" />
+                    <toolkit:TimePicker x:Name="beginTimePicker"></toolkit:TimePicker>
+                    <TextBlock Height="30"
+                               HorizontalAlignment="Left"
+                               Name="SoundLabel"
+                               Text="Sound"
+                               VerticalAlignment="Top" />
+                    <toolkit:ListPicker x:Name="soundPicker"
+                                        ItemTemplate="{StaticResource PickerItemTemplate}"
+                                        FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}" />
+                    <TextBlock Height="30"
+                               HorizontalAlignment="Left"
+                               Name="Repeats"
+                               Text="Repeats"
+                               VerticalAlignment="Top" />
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Name="OnlyOnceReadioBtn"
+                                     GroupName="Repeat"
+                                     Content="only once"
+                                     IsChecked="True" />
+                        <RadioButton Name="RepeatRadioBtn"
+                                     GroupName="Repeat"
+                                     Content="custom"
+                                     Checked="CustomButton_Checked"
+                                     Unchecked="CustomButton_UnChecked" />
+                    </StackPanel>
+                    <StackPanel Name="customStackPanel"
+                                Visibility="Collapsed">
+                        <toolkit:ListPicker Name="RepeatPicker"
+                                            SelectionChanged="RepeatPicker_SelectionChanged_1">
+                            <sys:String>Daily</sys:String>
+                            <sys:String>Weekly</sys:String>
+                            <sys:String>Monthly</sys:String>
+                            <sys:String>EndOfMonth</sys:String>
+                            <sys:String>Yearly</sys:String>
+                        </toolkit:ListPicker>
+                        <TextBlock Height="30"
+                                   HorizontalAlignment="Left"
+                                   Name="RepatsOn"
+                                   Text="Repeats On:" />
+                        <StackPanel Name="weekPanel">
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox  Tag="Monday"
+                                           Content="M" />
+                                <CheckBox Tag="Tuesday"
+                                          Content="T" />
+                                <CheckBox Tag="Wednesday"
+                                          Content="W" />
+                                <CheckBox Tag="Thursday"
+                                          Content="T" />
+                                <CheckBox Tag="Friday"
+                                          Content="F"
+                                          IsChecked="true" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Tag="Saturday"
+                                          Content="S" />
+                                <CheckBox Tag="Sunday"
+                                          Content="Su" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Name="monthPanel"
+                                    Visibility="Collapsed">
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Tag="1"
+                                          Content="Jan" />
+                                <CheckBox Tag="2"
+                                          Content="Feb" />
+                                <CheckBox Tag="3"
+                                          Content="Mar" />
+                                <CheckBox Tag="4"
+                                          Content="Apr" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Tag="5"
+                                          Content="May" />
+                                <CheckBox Tag="6"
+                                          Content="Jun" />
+                                <CheckBox Tag="7"
+                                          Content="Jul" />
+                                <CheckBox Tag="8"
+                                          Content="Aug" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Tag="9"
+                                          Content="Sep" />
+                                <CheckBox Tag="10"
+                                          Content="Oct" />
+                                <CheckBox Tag="11"
+                                          Content="Nov" />
+                                <CheckBox Tag="12"
+                                          Content="Dec" />
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Height="30"
+                                   Margin="9,0,0,0"
+                                   HorizontalAlignment="Left"
+                                   Name="Ends"
+                                   Text="Ends:" />
+                        <RadioButton Name="NeverRadioBtn"
+                                     GroupName="Ends"
+                                     Checked="Never_RadioButton_Checked"
+                                     IsChecked="True"
+                                     Content="Never" />
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton Name="AfterRadioBtn"
+                                         GroupName="Ends"
+                                         Content="After"
+                                         Margin="0"
+                                         Checked="After_RadioButton_Checked" />
+                            <TextBox Width="100"
+                                     Name="AfterTextBox"
+                                     TextChanged="AfterTextBox_TextChanged_1"
+                                     Text="10" />
+                            <TextBlock Text="Occurences"
+                                       VerticalAlignment="Center"
+                                       Height="30" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton Name="EndsRadioBtn"
+                                         GroupName="Ends"
+                                         Content="On"
+                                         Margin="0"
+                                         Checked="On_RadioButton_Checked" />
+                            <toolkit:DatePicker x:Name="endDatePicker"
+                                                Loaded="endDatePicker_Loaded_1"></toolkit:DatePicker>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="10">
+                            <TextBlock Text="Summary: "
+                                       Height="30" />
+                            <TextBlock Name="SummaryTextBox"
+                                       Text="Never ends"
+                                       FontWeight="Bold"
+                                       Height="30" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True"
+                              IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton x:Name="saveButton"
+                                            IconUri="/Images/save.png"
+                                            Text="Save"
+                                            Click="ApplicationBarSaveButton_Click" />
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>
