@@ -69,6 +69,8 @@
                                             <TextBlock Text="{Binding Name}"
                                                        FontSize="{StaticResource PhoneFontSizeSmall}" />
                                             <ContentControl HorizontalAlignment="Left"
+                                                            Foreground="Gray"
+                                                            FontWeight="SemiBold"
                                                             FontSize="{StaticResource PhoneFontSizeSmall}"
                                                             Content="{Binding}" />
                                         </StackPanel>
@@ -87,6 +89,16 @@
             <shell:ApplicationBarIconButton IconUri="/Images/add.png"
                                             Text="Add"
                                             Click="ApplicationBarAddButton_Click" />
+
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Click="ApplicationBarAboutButton_Click"
+                                              Text="about" />
+                <shell:ApplicationBarMenuItem Click="ApplicationBarRateButton_Click"
+                                              Text="rate the app" />
+                <shell:ApplicationBarMenuItem Click="ApplicationBarFeedbackButton_Click"
+                                              Text="send feedback" />
+            </shell:ApplicationBar.MenuItems>
+
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

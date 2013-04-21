@@ -107,6 +107,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ReviewBugger.cs" />
+    <Compile Include="ReviewPopupControl.xaml.cs">
+      <DependentUpon>ReviewPopupControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SuperAlarm.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReviewPopupControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

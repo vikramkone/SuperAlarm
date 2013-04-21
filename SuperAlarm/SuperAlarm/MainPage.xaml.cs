@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using System.Windows.Resources;
-using System.Xml.Serialization;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Scheduler;
-using Microsoft.Phone.Shell;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Media;
-using SuperAlarm.Resources;
+using Microsoft.Phone.Tasks;
 
 namespace SuperAlarm
 {
@@ -28,10 +21,8 @@ namespace SuperAlarm
         private void ResetItemsList()
         {
             var settings = IsolatedStorageSettings.ApplicationSettings;
-            //settings.Clear();
-            //ScheduledActionService.GetActions<Alarm>().ToList().ForEach(x => ScheduledActionService.Remove(x.Name));
 
-            var superAlarms = settings.Select(x => x.Value as SuperAlarm).ToList();
+            var superAlarms = settings.Where(x => x.Key != ReviewBugger.ReviewKey).Select(x => x.Value as SuperAlarm).ToList();
 
             // If there are 1 or more reminders, hide the "no reminders"
             // TextBlock. IF there are zero reminders, show the TextBlock.
@@ -46,12 +37,18 @@ namespace SuperAlarm
                 EmptyTextBlock.Visibility = Visibility.Visible;
             }
 
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             // Reset the ReminderListBox items when the page is navigated to.
             ResetItemsList();
+
+            if (ReviewBugger.IsTimeForReview())
+            {
+                ReviewBugger.PromptUser();
+            }
         }
 
         private void ApplicationBarAddButton_Click(object sender, EventArgs e)
@@ -133,5 +130,46 @@ namespace SuperAlarm
                 IsolatedStorageSettings.ApplicationSettings.Save();
             }
         }
+
+        /// <summary>
+        /// Show details about the app
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ApplicationBarAboutButton_Click(object sender, EventArgs e)
+        {
+            MarketplaceDetailTask task = new MarketplaceDetailTask();
+            task.Show();
+        }
+
+        /// <summary>
+        /// Rate and review the app
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ApplicationBarRateButton_Click(object sender, EventArgs e)
+        {
+            MarketplaceReviewTask task = new MarketplaceReviewTask();
+            task.Show();
+
+            // Dont prompt the user again
+            ReviewBugger.DidReview();
+        }
+
+        /// <summary>
+        /// Send a feedback email
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ApplicationBarFeedbackButton_Click(object sender, EventArgs e)
+        {
+            EmailComposeTask task = new EmailComposeTask();
+            task.To = "superalarm@outlook.com";
+            task.Subject = "Feedback/Suggestions for Super Alarm";
+            task.Body = "Feedback/Suggestions : ";
+
+            task.Show();
+        }
+ 
     }
 }

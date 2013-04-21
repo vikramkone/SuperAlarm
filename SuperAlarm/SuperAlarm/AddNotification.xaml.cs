@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
 using System.Windows.Navigation;
-using System.Xml.Serialization;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Scheduler;
 using Microsoft.Phone.Shell;
@@ -173,7 +168,7 @@ namespace SuperAlarm
 
             if (beginTime < DateTime.Now)
             {
-                MessageBox.Show("Sorry, Can't start an alarm in the past. Please select a time in the future");
+                MessageBox.Show("Sorry, Can't start an alarm in the past. Please select a different time");
 
                 return;
             }
@@ -210,6 +205,13 @@ namespace SuperAlarm
                     else if (this.EndsRadioBtn.IsChecked.Value)
                     {
                         expirationTime = endDatePicker.Value;
+
+                        if (expirationTime.HasValue && expirationTime.Value < beginTime)
+                        {
+                            MessageBox.Show("Sorry, The End Date should be after the Start Date. Please select a different date");
+
+                            return;
+                        }
                     }
                 }
             }

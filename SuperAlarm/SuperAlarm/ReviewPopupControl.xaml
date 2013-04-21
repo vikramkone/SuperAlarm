@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="SuperAlarm.ReviewPopupControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             FontFamily="{StaticResource PhoneFontFamilyNormal}"
+             FontSize="{StaticResource PhoneFontSizeNormal}"
+             Foreground="{StaticResource PhoneForegroundBrush}">
+
+    <Grid x:Name="LayoutRoot"
+          Background="{StaticResource PhoneChromeBrush}">
+
+        <Border  BorderThickness="2"
+                 Margin="10">
+            <StackPanel Height="240"
+                        Width="480">
+                <TextBlock Text="Rate the app?"
+                           TextAlignment="Center"
+                           FontSize="40"
+                           Margin="10,0" />
+                <TextBlock Text=""
+                           FontSize="21"
+                           Margin="10,0" />
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,10">
+                    <Button x:Name="btnOk"
+                            Content="yes"
+                            Width="150" />
+                    <Button x:Name="btnNo"
+                            Content="later"
+                            Width="150" />
+                    <Button x:Name="btnNever"
+                            Content="never"
+                            Width="150" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
