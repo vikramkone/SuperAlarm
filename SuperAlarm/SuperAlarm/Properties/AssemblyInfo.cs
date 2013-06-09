@@ -32,8 +32,9 @@ using System.Resources;
 // 1.0.0.0 - Initial Checking
 // 1.1.0.0 - Minor bug fixes and update the main page with alarm name and recurrence
 // 1.2.0.0 - Add app review feature that prompts user to review the app
+// 1.3.0.0 - More alarm sounds and also available for Windows Phone 7.5
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.2.0.0")]
-[assembly: AssemblyFileVersion("1.2.0.0")]
+[assembly: AssemblyVersion("1.3.0.0")]
+[assembly: AssemblyFileVersion("1.3.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]

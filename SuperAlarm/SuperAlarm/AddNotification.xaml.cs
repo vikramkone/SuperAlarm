@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -19,27 +20,18 @@ namespace SuperAlarm
 
         public static SuperAlarm SelectedAlarm = null;
 
-        private static List<AlarmSound> alarmSounds = new List<AlarmSound>();
-
+        private static List<AlarmSound> alarmSounds;
 
         public AddNotification()
         {
             InitializeComponent();
+
+            alarmSounds = GetAlarmSounds();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            // Create the alarms
-            if (AddNotification.alarmSounds == null || AddNotification.alarmSounds.Count == 0)
-            {
-                for (int i = 1; i <= 6; i++)
-                {
-                    AlarmSound sound = new AlarmSound { Name = string.Format("alarm {0}", i), Path = string.Format("/Alarms/Alarm-0{0}.wma", i) };
-                    alarmSounds.Add(sound);
-                }
-            }
 
             this.soundPicker.ItemsSource = alarmSounds;
 
@@ -60,7 +52,7 @@ namespace SuperAlarm
                     this.titleTextBox.Text = SelectedAlarm.Name;
 
                     this.soundPicker.ItemsSource = alarmSounds;
-                    var sound = alarmSounds.Where(x => x.Name == SelectedAlarm.Sound.Name).Single();
+                    var sound = alarmSounds.Where(x => x.Path == SelectedAlarm.Sound.Path).Single();
                     this.soundPicker.SelectedIndex = alarmSounds.IndexOf(sound);
                     AlarmSchedule schedule = SelectedAlarm.Schedule;
 
@@ -155,6 +147,29 @@ namespace SuperAlarm
                     ApplicationBar.Buttons.Add(b);
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets a list of alarm sounds
+        /// </summary>
+        /// <returns></returns>
+        private List<AlarmSound> GetAlarmSounds()
+        {
+            List<AlarmSound> alarmSounds = new List<AlarmSound>();
+
+            List<string> sounds = new List<string>() { "Amulet", "Curve", "Ginger", "Jade", "Lantern", "Lattice", "Spring", "Symmetry", "Willow" };
+
+            for (int i = 1; i <= 6; i++) { sounds.Add(string.Format("Alarm-0{0}", i)); };
+            for (int i = 1; i <= 9; i++) { sounds.Add(string.Format("Ring0{0}", i)); };
+            for (int i = 10; i <= 30; i++) { sounds.Add(string.Format("Ring{0}", i)); };
+
+            foreach (string alarm in sounds)
+            {
+                AlarmSound sound = new AlarmSound { Name = alarm, Path = string.Format("/Alarms/{0}.wma", alarm) };
+                alarmSounds.Add(sound);
+            }
+
+            return alarmSounds;
         }
 
         private void ApplicationBarSaveButton_Click(object sender, EventArgs e)

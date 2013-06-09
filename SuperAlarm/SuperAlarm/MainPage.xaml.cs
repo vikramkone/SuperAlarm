@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Windows;
@@ -12,6 +13,8 @@ namespace SuperAlarm
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        public static List<string> AlarmSounds = new List<string>();
+
         // Constructor
         public MainPage()
         {
@@ -36,8 +39,6 @@ namespace SuperAlarm
                 NotificationListBox.ItemsSource = null;
                 EmptyTextBlock.Visibility = Visibility.Visible;
             }
-
-
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -170,6 +171,6 @@ namespace SuperAlarm
 
             task.Show();
         }
- 
+
     }
 }
